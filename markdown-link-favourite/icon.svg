@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Properly sized ML text to ensure full visibility -->
+  <path d="M10 14v36h7V26l8 13 8-13v24h7V14h-7l-8 15-8-15z" fill="#0078D4" />
+  <path d="M42 14v36h12v-7h-5V14z" fill="#0078D4" />
+</svg>
