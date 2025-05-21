@@ -1,0 +1,1 @@
+javascript:(function(){const mdLink='['+document.title+']('+location.href+')';prompt('Copy this markdown link (Ctrl+C):', mdLink);})();

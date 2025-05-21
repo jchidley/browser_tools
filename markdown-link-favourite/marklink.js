@@ -1,0 +1,1 @@
+javascript:(function(){const mdLink='['+document.title+']('+location.href+')';const ta=document.createElement('textarea');ta.value=mdLink;ta.style.position='fixed';ta.style.left='-9999px';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');alert('Copied: '+mdLink);}catch(e){prompt('Copy this markdown link:',mdLink);}document.body.removeChild(ta);})();

@@ -245,18 +245,36 @@ async function createTabList() {
         const tabs = await chrome.tabs.query({});
         const htmlContent = generateHtmlContent(tabs, dateTimeString);
         
-        await chrome.tabs.create({
-            url: `data:text/html;charset=utf-8,${encodeURIComponent(htmlContent)}`
-        });
+        try {
+            // Primary approach - data URL (works in most browsers)
+            await chrome.tabs.create({
+                url: `data:text/html;charset=utf-8,${encodeURIComponent(htmlContent)}`
+            });
+        } catch (dataUrlError) {
+            // Fallback for browsers with data URL restrictions (like some Edge versions)
+            console.warn('Data URL approach failed, using blob URL fallback:', dataUrlError);
+            
+            const blob = new Blob([htmlContent], {type: 'text/html'});
+            const blobUrl = URL.createObjectURL(blob);
+            
+            await chrome.tabs.create({ url: blobUrl });
+            // Note: This blob URL will persist until the browser is closed or URL.revokeObjectURL is called
+        }
     } catch (error) {
         console.error('Error in createTabList:', error);
         const errorHtml = `
             <h1>Error</h1>
             <p>Sorry, there was an error creating the tab list: ${escapeHtml(error.message)}</p>
         `;
-        await chrome.tabs.create({
-            url: `data:text/html;charset=utf-8,${encodeURIComponent(errorHtml)}`
-        });
+        
+        try {
+            await chrome.tabs.create({
+                url: `data:text/html;charset=utf-8,${encodeURIComponent(errorHtml)}`
+            });
+        } catch (e) {
+            // Last resort fallback
+            alert(`Error: ${error.message}`);
+        }
     }
 }
 
