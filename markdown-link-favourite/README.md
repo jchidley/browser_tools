@@ -1,54 +1,49 @@
 # MarkLink - Copy Page as Markdown Link
 
-A simple bookmarklet that copies the current page's title and URL as a markdown link to your clipboard.
+A bookmarklet that copies the current page's title and URL as a markdown link to your clipboard.
 
-## Installation Options
+## Installation (Microsoft Edge on Windows)
 
-### Option 1: MarkLink (Automatic Copy)
+### Option 1: MarkLink (Recommended)
 
-1. Create a new bookmark in your browser
-2. Name it "MarkLink"
-3. Copy and paste the code below as the bookmark URL:
-
-```
-javascript:(function(){const mdLink='['+document.title+']('+location.href+')';const ta=document.createElement('textarea');ta.value=mdLink;ta.style.position='fixed';ta.style.left='-9999px';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');alert('Copied: '+mdLink);}catch(e){prompt('Copy this markdown link:',mdLink);}document.body.removeChild(ta);})();
-```
-
-### Option 2: MarkLink Simple (Manual Copy)
-
-If you encounter issues with the automatic copy version, use this simpler version:
-
-1. Create a new bookmark
-2. Name it "MarkLink Simple"
-3. Copy and paste the code below as the bookmark URL:
+1. **Show the Favorites Bar**: Press `Ctrl+Shift+B` or go to Settings → Appearance → Show favorites bar
+2. **Add a placeholder bookmark**: Visit any page, press `Ctrl+D`, save to "Favorites bar"
+3. **Edit the bookmark**: Right-click the new bookmark → "Edit"
+4. **Replace the URL**: Delete the URL and paste this code:
 
 ```
-javascript:(function(){const mdLink='['+document.title+']('+location.href+')';prompt('Copy this markdown link (Ctrl+C):', mdLink);})();
+javascript:(function(){const e=t=>t.replace(/([[\]()\\])/g,'\\$1');const t=e(document.title);const m='['+t+']('+location.href+')';const s=t=>{const d=document.createElement('div');d.textContent=t;Object.assign(d.style,{position:'fixed',bottom:'20px',left:'50%',transform:'translateX(-50%)',background:'#333',color:'#fff',padding:'12px 24px',borderRadius:'8px',fontSize:'14px',fontFamily:'system-ui,sans-serif',zIndex:'999999',boxShadow:'0 4px 12px rgba(0,0,0,0.3)',opacity:'0',transition:'opacity 0.3s'});document.body.appendChild(d);requestAnimationFrame(()=>d.style.opacity='1');setTimeout(()=>{d.style.opacity='0';setTimeout(()=>d.remove(),300)},2000)};const c=()=>{if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(m).then(()=>s('Copied!')).catch(()=>prompt('Copy:',m))}else{const ta=document.createElement('textarea');ta.value=m;ta.style.position='fixed';ta.style.left='-9999px';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');s('Copied!')}catch(e){prompt('Copy:',m)}ta.remove()}};c()})();
+```
+
+5. **Rename** (optional): Change the name to "MarkLink"
+6. **Press Enter** to save
+
+### Option 2: MarkLink Simple
+
+A minimal version that shows a prompt dialog instead of auto-copying:
+
+```
+javascript:(function(){const t=document.title.replace(/([[\]()\\])/g,'\\$1');prompt('Copy this markdown link (Ctrl+C):','['+t+']('+location.href+')')})();
 ```
 
 ## Usage
 
-1. Navigate to any web page you want to copy as a markdown link
-2. Click the "MarkLink" bookmark in your bookmarks bar
-3. The page will be copied to your clipboard in markdown format: `[Page Title](URL)`
-4. A confirmation popup will appear showing what was copied
-
-For the simple version, you'll need to manually copy the text from the prompt.
+1. Navigate to any web page
+2. Click the "MarkLink" bookmark in your favorites bar
+3. The link is copied as `[Page Title](URL)`
+4. A toast notification confirms the copy (or a prompt appears on HTTP pages)
 
 ## Features
 
-- Works in all major browsers (Chrome, Firefox, Edge, Safari)
+- **Modern Clipboard API** with automatic fallback for older browsers and HTTP pages
+- **Toast notification** instead of intrusive alert
+- **Escapes markdown characters** (`[]()`) in titles
+- Works in Chrome, Edge, Firefox, Safari
 - No permissions required
-- Provides visual confirmation of copying
-- Fallback to manual copy if automatic copying fails
-- Minimal size for fast operation
 
-## Tips for Microsoft Edge
+## Technical Notes
 
-For a cleaner bookmarks bar in Edge:
-1. Right-click on the MarkLink bookmark
-2. Select "Edit"
-3. You can optionally:
-   - Add an emoji at the beginning of the name (press Win+; to open emoji panel)
-   - Clear the name completely to show only the icon (though this will be a generic script icon)
-4. Click "Save"
+- Uses `navigator.clipboard.writeText()` on HTTPS (secure contexts)
+- Falls back to `document.execCommand('copy')` on HTTP pages
+- Falls back to prompt dialog if both methods fail
+- Toast auto-dismisses after 2 seconds with fade animation
