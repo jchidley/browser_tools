@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "kind": "repo-preflight-disposition",
+  "identity": "github.com/jchidley/browser_tools",
+  "decision": "changes-published",
+  "reviewedCommit": "b4a27cef3f42d07b2eb1f008564ee7d77c10487b",
+  "operation": "inspect",
+  "files": {
+    "AGENTS.md": "ef9f37a2f88f30359af348905ccdb14acece2e9564f80ce1cacdbdf1f40b8f44",
+    "README.md": "ab2f8a0d24ba8a539968a51980381ad205348e0e3b2671fff971c64f4b965392",
+    "markdown-link-favourite/README.md": "ee5642d9efdcb97942fb15c2bba82907ea8b62b910b2f7fe913c93ea5c1308d9"
+  },
+  "profileId": "4e2f946311539a962f68da645c3a22ac068d8be0022fc08f8ed3cae14331fcc2",
+  "reviewer": "controller-pi-session-01a07795-640e-7529-b8bf-bbdc58622b3e",
+  "summary": "Validated guidance changes are published at the reviewed commit.",
+  "evidenceSummary": [
+    "Validated guidance candidate committed and pushed to main at b4a27cef3f42d07b2eb1f008564ee7d77c10487b; post-publication Repo Preflight reports current.",
+    "Account-wide rollout identity, source scope, disposition, and validation evidence were reconciled."
+  ],
+  "limitations": [
+    "Guidance-only correction; current unsafe HTML interpolation, raw Markdown destinations and false clipboard success remain explicitly documented, not hardened.",
+    "Six synthetic Node VM/API/DOM tests and three JavaScript syntax checks; no browser, clipboard, bookmarks, tabs, icon export or compatibility/visual certification.",
+    "Refresh target/base/privacy and obtain exact publication approval."
+  ],
+  "recordedAt": "2026-09-06T22:49:05.096Z",
+  "publicationApproved": false
+}
