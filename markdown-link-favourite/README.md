@@ -1,10 +1,10 @@
 # MarkLink - Copy Page as Markdown Link
 
-A bookmarklet that copies the current page's title and URL as a markdown link to your clipboard.
+A bookmarklet that attempts to copy the current page's title and URL as a Markdown link. The Simple variant prompts for manual copying. Use synthetic pages and an explicitly approved test profile for validation: running the main variant may replace clipboard contents, and exported URLs can contain private data or tokens. Editing bookmarks or using a personal profile is not implied by a code/documentation review.
 
 ## Installation (Microsoft Edge on Windows)
 
-### Option 1: MarkLink (Recommended)
+### Option 1: MarkLink (Experimental)
 
 1. **Show the Favorites Bar**: Press `Ctrl+Shift+B` or go to Settings → Appearance → Show favorites bar
 2. **Add a placeholder bookmark**: Visit any page, press `Ctrl+D`, save to "Favorites bar"
@@ -30,20 +30,22 @@ javascript:(function(){const t=document.title.replace(/([[\]()\\])/g,'\\$1');pro
 
 1. Navigate to any web page
 2. Click the "MarkLink" bookmark in your favorites bar
-3. The link is copied as `[Page Title](URL)`
-4. A toast notification confirms the copy (or a prompt appears on HTTP pages)
+3. The main variant attempts to copy `[Page Title](URL)`; the Simple variant always prompts for manual copying.
+4. A toast reports the attempted result, not independently verified clipboard contents. On HTTP/insecure contexts the main variant tries legacy copying; a prompt appears only if that call throws, not when it merely returns false.
 
 ## Features
 
 - **Modern Clipboard API** with automatic fallback for older browsers and HTTP pages
 - **Toast notification** instead of intrusive alert
 - **Escapes markdown characters** (`[]()`) in titles
-- Works in Chrome, Edge, Firefox, Safari
-- No permissions required
+- Browser compatibility is not certified here; page/browser clipboard policy may prevent copying
+- No extension permission manifest; bookmarklet execution still runs in the current page and attempts clipboard access
 
 ## Technical Notes
 
 - Uses `navigator.clipboard.writeText()` on HTTPS (secure contexts)
 - Falls back to `document.execCommand('copy')` on HTTP pages
-- Falls back to prompt dialog if both methods fail
+- A rejected modern Clipboard API promise goes directly to a prompt (it does not try legacy copying)
+- Legacy `execCommand('copy')` exceptions prompt, but a false return is ignored and still shows “Copied!”
+- Title escaping does not sanitize the raw URL destination or guarantee a valid Markdown link
 - Toast auto-dismisses after 2 seconds with fade animation
