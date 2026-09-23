@@ -25,6 +25,12 @@ Click the extension icon to open a new tab listing all your open tabs. From ther
 
 These are intended functions, not verified outcomes in every browser. The legacy clipboard fallback ignores a false return and may show success without copying. Titles escape Markdown `[]()` and backslashes, but URL destinations remain raw and may not form safe/valid Markdown links.
 
+## Blank New Tab Extension
+
+Replaces Edge's new-tab page with a plain white page. It is a Manifest V3 extension with no JavaScript, network requests, or declared permissions. The tab URL is an extension URL, not literally `about:blank`.
+
+To install in Edge, open `edge://extensions`, enable **Developer mode**, choose **Load unpacked**, and select `blank-new-tab-extension` in this repository. If an earlier unpacked copy was loaded from a different location, remove that entry first; moving the files does not update Edge's stored path.
+
 ## MarkLink Bookmarklet
 
 Attempts to copy the current page's title and URL; the Simple variant prompts for manual copying. Modern clipboard rejection prompts in the main variant, while a failed legacy copy can incorrectly show success. Do not equate a toast with verified clipboard contents.
